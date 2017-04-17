@@ -1,0 +1,44 @@
+﻿@model IEnumerable<WebApplication9.Models.ItensPedido>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Produto
+            </th>
+            <th>
+                Qtd.
+            </th>
+            <th>
+                Valor
+            </th>
+            <th>
+                Valor Total
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+      
+                <td>
+                    @Html.DisplayFor(modelItem => item.produto.Descricao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.qtde)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.valor)
+                </td>
+                <td>
+                    @(item.valor * item.qtde)
+                </td>
+                <td>
+                    <a href="#" class="btn" onclick="deletaitempedido(@item.PedidoID, @item.ProdutoID);">Remover</a> 
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

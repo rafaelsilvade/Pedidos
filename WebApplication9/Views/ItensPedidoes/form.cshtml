@@ -1,0 +1,88 @@
+﻿@model WebApplication9.Models.ItensPedido
+
+@{
+    ViewBag.Title = "Create";
+
+    var list = ViewBag.listItens;
+}
+<br/>
+
+
+
+    <div class="form-horizontal panel-group" id="groupPanel">
+        <h5>Itens do Pedido</h5>
+       
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row">
+            <div class="form-group">
+                @Html.Hidden("PedidoID", null)
+                @Html.LabelFor(model => model.ProdutoID, "Produto", htmlAttributes: new { @class = "control-label col-md-2", @type="text" })
+                <div class="col-md-3">
+                    @Html.DropDownList("ProdutoID", null, htmlAttributes: new { @class = "form-control listSelectfind" })
+                    @Html.ValidationMessageFor(model => model.ProdutoID, "", new { @class = "text-danger" })
+                </div>
+           
+                @Html.LabelFor(model => model.qtde, "Qtd.", htmlAttributes: new { @value = "1", @class = "control-label col-md-1" })
+                <div class="col-md-1">
+                    @Html.EditorFor(model => model.qtde, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.qtde, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-2">
+                    <a href="#" onclick="SalvarItens()" class="btn btn-primary">Adicionar</a>
+                </div>
+            </div>
+            
+        </div>
+
+        
+
+
+        <div style="width:80%; margin: 0 auto;">
+                <table class="table table-hover datatable_pre">
+                    <thead style="background-color:#428bca; color:#fff;">
+                        <tr>
+                           <th>
+                                Produto
+                            </th>
+                            <th>
+                               Qtd.
+                            </th>
+                            <th>
+                                Valor
+                            </th>
+                            <th>
+                                Valor Total
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if(list != null) { 
+                            foreach (WebApplication9.Models.ItensPedido item in (List<WebApplication9.Models.ItensPedido>)list)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.produto.Descricao)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.qtde)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.valor)
+                                    </td>
+                                    <td>
+                                        @(item.valor * item.qtde)
+                                    </td>
+                                    <td>
+                                        <a href="#" class="btn" onclick="deletaitempedido(@item.PedidoID, @item.ProdutoID);">Remover</a> 
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+</div>

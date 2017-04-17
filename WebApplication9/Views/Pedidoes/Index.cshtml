@@ -1,0 +1,147 @@
+﻿@model IEnumerable<WebApplication9.Models.Pedido>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br/><br /><br />
+
+
+<div class="form-group">
+    <div class="row">
+        <div class="col-md-5">
+            <div class="form-group">
+                <label>Cliente:</label><br />
+                @Html.DropDownList("ClienteID", null, htmlAttributes: new { @class = "form-control listSelectfind " })
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="form-group">
+                <label>Numero:</label>
+                <input type="text" class="form-control" placeholder="Numero do pedido" id="numero" name="numero">
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div id="grupopanelShow" style="min-height:150px;">
+            <h5 style="width: 150px;">Periodo Data Entrega</h5>
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label>de:</label><br />
+                    <input type="date" class="form-control" placeholder="" id="ini" name="ini">
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label>ate:</label>
+                    <input type="date" class="form-control" placeholder="" id="fim" name="fim">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9 text-right"><a href="#" class="btn btn-info pesquisa">Pesquisar</a></div>
+    </div>
+</div>
+
+<div class="form-group">
+    <a href="/Pedidoes/Create" class="btn btn-success">Criar pedido</a>
+</div>
+
+    <table class="table">
+        <tr>
+            <th>
+                @if (ViewBag.order == null)
+                {
+                    <a href="/Pedidoes/Index/@ViewBag.cPag/num_desc" class="pesquisa">Número<span class="icon-sort-numeric-asc " style="margin-left:8px;"></span></a>
+                }
+                else
+                {
+                    <a href="/Pedidoes/Index/@ViewBag.cPag" class="pesquisa">Número<span class="icon-sort-numberic-desc" style="margin-left:8px;"></span></a>
+                }
+            </th>
+            <th>
+                @if (ViewBag.order == "cliente")
+            {
+                    <a href="/Pedidoes/Index/@ViewBag.cPag/Cliente_desc" class="pesquisa"> Cliente<span class="icon-sort-alpha-asc" style="margin-left:8px;"></span></a>
+                }
+                else
+                {
+                    <a href="/Pedidoes/Index/@ViewBag.cPag/Cliente" class="pesquisa">Cliente<span class="icon-sort-alpha-desc" style="margin-left:8px;"></span></a>
+                }
+
+            </th>
+            <th>
+                @if (ViewBag.order == "data")
+            {
+                    <a href="/Pedidoes/Index/@ViewBag.cPag/Data_desc" class="pesquisa">Data da entrega<span class="icon-sort-time-asc " style="margin-left:8px;"></span></a>
+                }
+                else
+                {
+                    <a href="/Pedidoes/Index/@ViewBag.cPag/data" class="pesquisa">Data da entrega<span class="icon-sort-time-desc" style="margin-left:8px;"></span></a>
+                }
+
+            </th>
+            <th>
+                Valor total
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PedidoID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.cliente.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.dataEntrega)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Total)
+                </td>
+                <td>
+                    <a href="/Delete/@item.PedidoID" class="btn btn-danger">Delete</a> 
+                </td>
+            </tr>
+        }
+
+    </table>
+    <center>
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                @for (int i = 1; i <= ViewBag.pagCount; i++)
+            {
+                    <td>
+                        @if (i != ViewBag.cPag)
+                {
+                            <a href="/Pedidoes/Index/@i/@ViewBag.order" class="btn btn-default" style="margin-right:5px;">@i</a>
+                        }
+                        else
+                        {
+                            <span class="btn btn-primary" style="margin-right:5px;">@i</span>
+                        }
+                    </td>
+                }
+            </tr>
+        </table>
+    </center>
+  @section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/select2.min.js")
+    @Scripts.Render("~/Scripts/DataTables/jquery.dataTables.min.js")
+    @Scripts.Render("~/Scripts/datepicker.js")
+    @Scripts.Render("~/Scripts/app.js")
+
+}
+
+@section css{
+    @Styles.Render("~/Content/select2.css")
+    @Styles.Render("~/Content/components.min.css")
+    @Styles.Render("~/Content/DataTables/css/jquery.dataTables.min.css")
+    @Styles.Render("~/Content/icomoon/styles.css")
+    @Styles.Render("~/Content/Site.css")
+}
